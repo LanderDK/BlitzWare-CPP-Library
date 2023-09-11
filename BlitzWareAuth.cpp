@@ -299,13 +299,13 @@ namespace BlitzWare {
 			if (response.status_code == 200 || response.status_code == 201)
 			{
 				content = json::json::parse(response.text);
-				BlitzWare::API::UserData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["user"]["id"]));
-				BlitzWare::API::UserData::username = Utilities::RemoveQuotesFromString(to_string(content["user"]["username"]));
-				BlitzWare::API::UserData::email = Utilities::RemoveQuotesFromString(to_string(content["user"]["email"]));
-				BlitzWare::API::UserData::expiry = Utilities::RemoveQuotesFromString(to_string(content["user"]["expiryDate"]));
-				BlitzWare::API::UserData::lastLogin = Utilities::RemoveQuotesFromString(to_string(content["user"]["lastLogin"]));
-				BlitzWare::API::UserData::lastIP = Utilities::RemoveQuotesFromString(to_string(content["user"]["lastIP"]));
-				BlitzWare::API::UserData::hwid = Utilities::RemoveQuotesFromString(to_string(content["user"]["hwid"]));
+				BlitzWare::API::UserData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["id"]));
+				BlitzWare::API::UserData::username = Utilities::RemoveQuotesFromString(to_string(content["username"]));
+				BlitzWare::API::UserData::email = Utilities::RemoveQuotesFromString(to_string(content["email"]));
+				BlitzWare::API::UserData::expiry = Utilities::RemoveQuotesFromString(to_string(content["expiryDate"]));
+				BlitzWare::API::UserData::lastLogin = Utilities::RemoveQuotesFromString(to_string(content["lastLogin"]));
+				BlitzWare::API::UserData::lastIP = Utilities::RemoveQuotesFromString(to_string(content["lastIP"]));
+				BlitzWare::API::UserData::hwid = Utilities::RemoveQuotesFromString(to_string(content["hwid"]));
 				BlitzWare::API::UserData::authToken = Utilities::RemoveQuotesFromString(to_string(content["token"]));
 				return true;
 			}
@@ -374,13 +374,13 @@ namespace BlitzWare {
 			if (response.status_code == 200)
 			{
 				content = json::json::parse(response.text);
-				BlitzWare::API::UserData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["user"]["id"]));
-				BlitzWare::API::UserData::username = Utilities::RemoveQuotesFromString(to_string(content["user"]["username"]));
-				BlitzWare::API::UserData::email = Utilities::RemoveQuotesFromString(to_string(content["user"]["email"]));
-				BlitzWare::API::UserData::expiry = Utilities::RemoveQuotesFromString(to_string(content["user"]["expiryDate"]));
-				BlitzWare::API::UserData::lastLogin = Utilities::RemoveQuotesFromString(to_string(content["user"]["lastLogin"]));
-				BlitzWare::API::UserData::lastIP = Utilities::RemoveQuotesFromString(to_string(content["user"]["lastIP"]));
-				BlitzWare::API::UserData::hwid = Utilities::RemoveQuotesFromString(to_string(content["user"]["hwid"]));
+				BlitzWare::API::UserData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["id"]));
+				BlitzWare::API::UserData::username = Utilities::RemoveQuotesFromString(to_string(content["username"]));
+				BlitzWare::API::UserData::email = Utilities::RemoveQuotesFromString(to_string(content["email"]));
+				BlitzWare::API::UserData::expiry = Utilities::RemoveQuotesFromString(to_string(content["expiryDate"]));
+				BlitzWare::API::UserData::lastLogin = Utilities::RemoveQuotesFromString(to_string(content["lastLogin"]));
+				BlitzWare::API::UserData::lastIP = Utilities::RemoveQuotesFromString(to_string(content["lastIP"]));
+				BlitzWare::API::UserData::hwid = Utilities::RemoveQuotesFromString(to_string(content["hwid"]));
 				BlitzWare::API::UserData::authToken = Utilities::RemoveQuotesFromString(to_string(content["token"]));
 				return true;
 			}
@@ -447,13 +447,13 @@ namespace BlitzWare {
 			if (response.status_code == 200)
 			{
 				content = json::json::parse(response.text);
-				BlitzWare::API::UserData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["user"]["id"]));
-				BlitzWare::API::UserData::username = Utilities::RemoveQuotesFromString(to_string(content["user"]["username"]));
-				BlitzWare::API::UserData::email = Utilities::RemoveQuotesFromString(to_string(content["user"]["email"]));
-				BlitzWare::API::UserData::expiry = Utilities::RemoveQuotesFromString(to_string(content["user"]["expiryDate"]));
-				BlitzWare::API::UserData::lastLogin = Utilities::RemoveQuotesFromString(to_string(content["user"]["lastLogin"]));
-				BlitzWare::API::UserData::lastIP = Utilities::RemoveQuotesFromString(to_string(content["user"]["lastIP"]));
-				BlitzWare::API::UserData::hwid = Utilities::RemoveQuotesFromString(to_string(content["user"]["hwid"]));
+				BlitzWare::API::UserData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["id"]));
+				BlitzWare::API::UserData::username = Utilities::RemoveQuotesFromString(to_string(content["username"]));
+				BlitzWare::API::UserData::email = Utilities::RemoveQuotesFromString(to_string(content["email"]));
+				BlitzWare::API::UserData::expiry = Utilities::RemoveQuotesFromString(to_string(content["expiryDate"]));
+				BlitzWare::API::UserData::lastLogin = Utilities::RemoveQuotesFromString(to_string(content["lastLogin"]));
+				BlitzWare::API::UserData::lastIP = Utilities::RemoveQuotesFromString(to_string(content["lastIP"]));
+				BlitzWare::API::UserData::hwid = Utilities::RemoveQuotesFromString(to_string(content["hwid"]));
 				BlitzWare::API::UserData::authToken = Utilities::RemoveQuotesFromString(to_string(content["token"]));
 				return true;
 			}
@@ -521,13 +521,13 @@ namespace BlitzWare {
 			if (response.status_code == 200)
 			{
 				content = json::json::parse(response.text);
-				BlitzWare::API::UserData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["user"]["id"]));
-				BlitzWare::API::UserData::username = Utilities::RemoveQuotesFromString(to_string(content["user"]["username"]));
-				BlitzWare::API::UserData::email = Utilities::RemoveQuotesFromString(to_string(content["user"]["email"]));
-				BlitzWare::API::UserData::expiry = Utilities::RemoveQuotesFromString(to_string(content["user"]["expiryDate"]));
-				BlitzWare::API::UserData::lastLogin = Utilities::RemoveQuotesFromString(to_string(content["user"]["lastLogin"]));
-				BlitzWare::API::UserData::lastIP = Utilities::RemoveQuotesFromString(to_string(content["user"]["lastIP"]));
-				BlitzWare::API::UserData::hwid = Utilities::RemoveQuotesFromString(to_string(content["user"]["hwid"]));
+				BlitzWare::API::UserData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["id"]));
+				BlitzWare::API::UserData::username = Utilities::RemoveQuotesFromString(to_string(content["username"]));
+				BlitzWare::API::UserData::email = Utilities::RemoveQuotesFromString(to_string(content["email"]));
+				BlitzWare::API::UserData::expiry = Utilities::RemoveQuotesFromString(to_string(content["expiryDate"]));
+				BlitzWare::API::UserData::lastLogin = Utilities::RemoveQuotesFromString(to_string(content["lastLogin"]));
+				BlitzWare::API::UserData::lastIP = Utilities::RemoveQuotesFromString(to_string(content["lastIP"]));
+				BlitzWare::API::UserData::hwid = Utilities::RemoveQuotesFromString(to_string(content["hwid"]));
 				BlitzWare::API::UserData::authToken = Utilities::RemoveQuotesFromString(to_string(content["token"]));
 				return true;
 			}
