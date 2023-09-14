@@ -3,6 +3,7 @@
 
 #include <Windows.h>
 #include <iostream>
+#include <filesystem>
 #include <curl/curl.h>
 #include <cpr/api.h>
 #include <openssl/md5.h>
@@ -71,6 +72,7 @@ namespace BlitzWare {
         bool LoginLicenseOnly(const std::string& license);
         bool Extend(const std::string& username, const std::string& password, const std::string& license);
         void Log(const std::string& username, const std::string& action);
+        void DownloadFile(const std::string& fileId);
     };
 }
 

@@ -113,7 +113,7 @@ namespace BlitzWare {
 			AppInitDetails["name"] = this->appName;
 			AppInitDetails["secret"] = this->appSecret;
 			AppInitDetails["version"] = this->appVersion;
-			auto response = cpr::Post(cpr::Url{ this->apiUrl + "applications/initialize" },
+			auto response = cpr::Post(cpr::Url{ this->apiUrl + "/applications/initialize" },
 				cpr::Body{ AppInitDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
 			json::json content;
@@ -283,7 +283,7 @@ namespace BlitzWare {
 			UserRegisterDetails["hwid"] = BlitzWare::Utilities::HWID();
 			UserRegisterDetails["lastIP"] = BlitzWare::Utilities::IP();
 			UserRegisterDetails["id"] = BlitzWare::API::ApplicationData::id;
-			auto response = cpr::Post(cpr::Url{ this->apiUrl + "users/register" },
+			auto response = cpr::Post(cpr::Url{ this->apiUrl + "/users/register" },
 				cpr::Body{ UserRegisterDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
 			json::json content;
@@ -358,7 +358,7 @@ namespace BlitzWare {
 			UserLoginDetails["hwid"] = BlitzWare::Utilities::HWID();
 			UserLoginDetails["lastIP"] = BlitzWare::Utilities::IP();
 			UserLoginDetails["appId"] = BlitzWare::API::ApplicationData::id;
-			auto response = cpr::Post(cpr::Url{ this->apiUrl + "users/login" },
+			auto response = cpr::Post(cpr::Url{ this->apiUrl + "/users/login" },
 				cpr::Body{ UserLoginDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
 			json::json content;
@@ -431,7 +431,7 @@ namespace BlitzWare {
 			UserLoginDetails["hwid"] = BlitzWare::Utilities::HWID();
 			UserLoginDetails["lastIP"] = BlitzWare::Utilities::IP();
 			UserLoginDetails["appId"] = BlitzWare::API::ApplicationData::id;
-			auto response = cpr::Post(cpr::Url{ this->apiUrl + "licenses/login" },
+			auto response = cpr::Post(cpr::Url{ this->apiUrl + "/licenses/login" },
 				cpr::Body{ UserLoginDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
 			json::json content;
@@ -505,7 +505,7 @@ namespace BlitzWare {
 			UserExtendDetails["license"] = license;
 			UserExtendDetails["hwid"] = BlitzWare::Utilities::HWID();
 			UserExtendDetails["appId"] = BlitzWare::API::ApplicationData::id;
-			auto response = cpr::Put(cpr::Url{ this->apiUrl + "users/upgrade" },
+			auto response = cpr::Put(cpr::Url{ this->apiUrl + "/users/upgrade" },
 				cpr::Body{ UserExtendDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
 			json::json content;
@@ -577,13 +577,84 @@ namespace BlitzWare {
 			AppLogsDetails["action"] = action;
 			AppLogsDetails["ip"] = BlitzWare::Utilities::IP();
 			AppLogsDetails["appId"] = BlitzWare::API::ApplicationData::id;
-			auto response = cpr::Post(cpr::Url{ this->apiUrl + "appLogs/" },
+			auto response = cpr::Post(cpr::Url{ this->apiUrl + "/appLogs/" },
 				cpr::Body{ AppLogsDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"},
 				{"Authorization", "Bearer " + BlitzWare::API::UserData::authToken} });
 			json::json content;
 
 			if (response.status_code != 201)
+			{
+				content = json::json::parse(response.text);
+				if (response.status_code == 0)
+				{
+					MessageBoxA(NULL, "Unable to connect to the remote server!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONERROR | MB_OK);
+				}
+				if (BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["code"])) == "NOT_FOUND")
+				{
+					MessageBoxA(NULL, BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["message"])).c_str(), BlitzWare::API::ApplicationData::name.c_str(), MB_ICONERROR | MB_OK);
+				}
+				else if (BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["code"])) == "FORBIDDEN")
+				{
+					MessageBoxA(NULL, BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["message"])).c_str(), BlitzWare::API::ApplicationData::name.c_str(), MB_ICONERROR | MB_OK);
+				}
+				else if (BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["code"])) == "UNAUTHORIZED")
+				{
+					MessageBoxA(NULL, BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["message"])).c_str(), BlitzWare::API::ApplicationData::name.c_str(), MB_ICONERROR | MB_OK);
+				}
+				else if (BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["code"])) == "VALIDATION_FAILED")
+				{
+					MessageBoxA(NULL, "Missing log data!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONERROR | MB_OK);
+				}
+			}
+		}
+		catch (const std::exception& ex)
+		{
+			std::cout << ex.what() << std::endl;
+			MessageBoxA(NULL, "Unkown error, contact support!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONERROR | MB_OK);
+		}
+	}
+
+	void API::DownloadFile(const std::string& fileId) {
+		if (!this->initialized)
+		{
+			MessageBoxA(NULL, "Please initialize your application first!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONERROR | MB_OK);
+		}
+		try
+		{
+			auto response = cpr::Get(cpr::Url{ this->apiUrl + "/files/download/" + fileId },
+				cpr::Header{{"Authorization", "Bearer " + BlitzWare::API::UserData::authToken} });
+			json::json content;
+
+			if (response.status_code == 200)
+			{
+				auto contentDispositionHeader = response.header["Content-Disposition"];
+				std::string outputPath;
+
+				if (!contentDispositionHeader.empty()) {
+					size_t equalSignPos = contentDispositionHeader.find('=');
+					if (equalSignPos != std::string::npos) {
+						std::string fileName = contentDispositionHeader.substr(equalSignPos + 1);
+						fileName.erase(std::remove(fileName.begin(), fileName.end(), '\"'), fileName.end());
+						outputPath = (std::filesystem::current_path() / fileName).string();
+					}
+				}
+
+				if (!outputPath.empty()) {
+					std::ofstream file(outputPath, std::ios::out | std::ios::binary);
+					if (file) {
+						file.write(response.text.c_str(), response.text.size());
+						file.close();
+					}
+					else {
+						std::cerr << "Unable to create the output file." << std::endl;
+					}
+				}
+				else {
+					std::cerr << "Unable to determine the file name." << std::endl;
+				}
+			}
+			else
 			{
 				content = json::json::parse(response.text);
 				if (response.status_code == 0)
