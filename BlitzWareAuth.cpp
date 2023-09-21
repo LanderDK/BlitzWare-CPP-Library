@@ -107,6 +107,11 @@ namespace BlitzWare {
 		: apiUrl(apiUrl), appName(appName), appSecret(appSecret), appVersion(appVersion), initialized(false) {}
 
 	void API::Initialize() {
+		if (this->initialized)
+		{
+			MessageBoxA(NULL, "Application is already initialized!", this->appName.c_str(), MB_ICONEXCLAMATION | MB_OK);
+			exit(0);
+		}
 		try
 		{
 			json::json AppInitDetails;
@@ -117,17 +122,17 @@ namespace BlitzWare {
 				cpr::Body{ AppInitDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
 			json::json content;
-			auto receivedHash = response.header["X-Response-Hash"];
-			std::string recalculatedHash = BlitzWare::Security::CalculateResponseHash(response.text);
-
-			if (receivedHash != recalculatedHash)
-			{
-				MessageBoxA(NULL, "Possible malicious activity detected!", this->appName.c_str(), MB_ICONEXCLAMATION | MB_OK);
-				exit(0);
-			}
 
 			if (response.status_code == 200)
 			{
+				auto receivedHash = response.header["X-Response-Hash"];
+				std::string recalculatedHash = BlitzWare::Security::CalculateResponseHash(response.text);
+				if (receivedHash != recalculatedHash)
+				{
+					MessageBoxA(NULL, "Possible malicious activity detected!", this->appName.c_str(), MB_ICONEXCLAMATION | MB_OK);
+					exit(0);
+				}
+
 				content = json::json::parse(response.text);
 				this->initialized = true;
 				BlitzWare::API::ApplicationData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["id"]));
@@ -287,17 +292,17 @@ namespace BlitzWare {
 				cpr::Body{ UserRegisterDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
 			json::json content;
-			auto receivedHash = response.header["X-Response-Hash"];
-			std::string recalculatedHash = BlitzWare::Security::CalculateResponseHash(response.text);
-
-			if (receivedHash != recalculatedHash)
-			{
-				MessageBoxA(NULL, "Possible malicious activity detected!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONEXCLAMATION | MB_OK);
-				exit(0);
-			}
 
 			if (response.status_code == 200 || response.status_code == 201)
 			{
+				auto receivedHash = response.header["X-Response-Hash"];
+				std::string recalculatedHash = BlitzWare::Security::CalculateResponseHash(response.text);
+				if (receivedHash != recalculatedHash)
+				{
+					MessageBoxA(NULL, "Possible malicious activity detected!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONEXCLAMATION | MB_OK);
+					exit(0);
+				}
+
 				content = json::json::parse(response.text);
 				BlitzWare::API::UserData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["id"]));
 				BlitzWare::API::UserData::username = Utilities::RemoveQuotesFromString(to_string(content["username"]));
@@ -362,17 +367,17 @@ namespace BlitzWare {
 				cpr::Body{ UserLoginDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
 			json::json content;
-			auto receivedHash = response.header["X-Response-Hash"];
-			std::string recalculatedHash = BlitzWare::Security::CalculateResponseHash(response.text);
-
-			if (receivedHash != recalculatedHash)
-			{
-				MessageBoxA(NULL, "Possible malicious activity detected!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONEXCLAMATION | MB_OK);
-				exit(0);
-			}
 
 			if (response.status_code == 200)
 			{
+				auto receivedHash = response.header["X-Response-Hash"];
+				std::string recalculatedHash = BlitzWare::Security::CalculateResponseHash(response.text);
+				if (receivedHash != recalculatedHash)
+				{
+					MessageBoxA(NULL, "Possible malicious activity detected!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONEXCLAMATION | MB_OK);
+					exit(0);
+				}
+
 				content = json::json::parse(response.text);
 				BlitzWare::API::UserData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["id"]));
 				BlitzWare::API::UserData::username = Utilities::RemoveQuotesFromString(to_string(content["username"]));
@@ -435,17 +440,17 @@ namespace BlitzWare {
 				cpr::Body{ UserLoginDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
 			json::json content;
-			auto receivedHash = response.header["X-Response-Hash"];
-			std::string recalculatedHash = BlitzWare::Security::CalculateResponseHash(response.text);
-
-			if (receivedHash != recalculatedHash)
-			{
-				MessageBoxA(NULL, "Possible malicious activity detected!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONEXCLAMATION | MB_OK);
-				exit(0);
-			}
 
 			if (response.status_code == 200)
 			{
+				auto receivedHash = response.header["X-Response-Hash"];
+				std::string recalculatedHash = BlitzWare::Security::CalculateResponseHash(response.text);
+				if (receivedHash != recalculatedHash)
+				{
+					MessageBoxA(NULL, "Possible malicious activity detected!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONEXCLAMATION | MB_OK);
+					exit(0);
+				}
+
 				content = json::json::parse(response.text);
 				BlitzWare::API::UserData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["id"]));
 				BlitzWare::API::UserData::username = Utilities::RemoveQuotesFromString(to_string(content["username"]));
@@ -509,17 +514,17 @@ namespace BlitzWare {
 				cpr::Body{ UserExtendDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
 			json::json content;
-			auto receivedHash = response.header["X-Response-Hash"];
-			std::string recalculatedHash = BlitzWare::Security::CalculateResponseHash(response.text);
-
-			if (receivedHash != recalculatedHash)
-			{
-				MessageBoxA(NULL, "Possible malicious activity detected!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONEXCLAMATION | MB_OK);
-				exit(0);
-			}
 
 			if (response.status_code == 200)
 			{
+				auto receivedHash = response.header["X-Response-Hash"];
+				std::string recalculatedHash = BlitzWare::Security::CalculateResponseHash(response.text);
+				if (receivedHash != recalculatedHash)
+				{
+					MessageBoxA(NULL, "Possible malicious activity detected!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONEXCLAMATION | MB_OK);
+					exit(0);
+				}
+
 				content = json::json::parse(response.text);
 				BlitzWare::API::UserData::id = BlitzWare::Utilities::RemoveQuotesFromString(to_string(content["id"]));
 				BlitzWare::API::UserData::username = Utilities::RemoveQuotesFromString(to_string(content["username"]));
