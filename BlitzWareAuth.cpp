@@ -287,7 +287,7 @@ namespace BlitzWare {
 			UserRegisterDetails["license"] = license;
 			UserRegisterDetails["hwid"] = BlitzWare::Utilities::HWID();
 			UserRegisterDetails["lastIP"] = BlitzWare::Utilities::IP();
-			UserRegisterDetails["id"] = BlitzWare::API::ApplicationData::id;
+			UserRegisterDetails["applicationId"] = BlitzWare::API::ApplicationData::id;
 			auto response = cpr::Post(cpr::Url{ this->apiUrl + "/users/register" },
 				cpr::Body{ UserRegisterDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
@@ -362,7 +362,7 @@ namespace BlitzWare {
 			UserLoginDetails["twoFactorCode"] = twoFactorCode;
 			UserLoginDetails["hwid"] = BlitzWare::Utilities::HWID();
 			UserLoginDetails["lastIP"] = BlitzWare::Utilities::IP();
-			UserLoginDetails["appId"] = BlitzWare::API::ApplicationData::id;
+			UserLoginDetails["applicationId"] = BlitzWare::API::ApplicationData::id;
 			auto response = cpr::Post(cpr::Url{ this->apiUrl + "/users/login" },
 				cpr::Body{ UserLoginDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
@@ -435,7 +435,7 @@ namespace BlitzWare {
 			UserLoginDetails["license"] = license;
 			UserLoginDetails["hwid"] = BlitzWare::Utilities::HWID();
 			UserLoginDetails["lastIP"] = BlitzWare::Utilities::IP();
-			UserLoginDetails["appId"] = BlitzWare::API::ApplicationData::id;
+			UserLoginDetails["applicationId"] = BlitzWare::API::ApplicationData::id;
 			auto response = cpr::Post(cpr::Url{ this->apiUrl + "/licenses/login" },
 				cpr::Body{ UserLoginDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
@@ -509,7 +509,7 @@ namespace BlitzWare {
 			UserExtendDetails["password"] = password;
 			UserExtendDetails["license"] = license;
 			UserExtendDetails["hwid"] = BlitzWare::Utilities::HWID();
-			UserExtendDetails["appId"] = BlitzWare::API::ApplicationData::id;
+			UserExtendDetails["applicationId"] = BlitzWare::API::ApplicationData::id;
 			auto response = cpr::Put(cpr::Url{ this->apiUrl + "/users/upgrade" },
 				cpr::Body{ UserExtendDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"} });
@@ -570,7 +570,7 @@ namespace BlitzWare {
 		}
 	}
 
-	void API::Log(const std::string& username, const std::string& action) {
+	void API::Log(const std::string& action) {
 		if (!this->initialized)
 		{
 			MessageBoxA(NULL, "Please initialize your application first!", BlitzWare::API::ApplicationData::name.c_str(), MB_ICONERROR | MB_OK);
@@ -578,10 +578,10 @@ namespace BlitzWare {
 		try
 		{
 			json::json AppLogsDetails;
-			AppLogsDetails["username"] = username;
 			AppLogsDetails["action"] = action;
 			AppLogsDetails["ip"] = BlitzWare::Utilities::IP();
-			AppLogsDetails["appId"] = BlitzWare::API::ApplicationData::id;
+			AppLogsDetails["applicationId"] = BlitzWare::API::ApplicationData::id;
+			AppLogsDetails["userId"] = BlitzWare::API::UserData::id;
 			auto response = cpr::Post(cpr::Url{ this->apiUrl + "/appLogs/" },
 				cpr::Body{ AppLogsDetails.dump() },
 				cpr::Header{ {"Content-Type", "application/json"},
